@@ -1,0 +1,10 @@
+{
+    "autoload": {
+        "psr-0": {
+            "HBA": "src"
+        }
+    },
+    "require": {
+        "cboden/ratchet": "0.3.*"
+    }
+}

@@ -1,0 +1,557 @@
+@keyframes cardappear {
+	from {
+		opacity: 0;
+		transform: translateY(50px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes notification {
+	from { transform: translateY(-2.4rem); opacity: 0 }
+	to { transform: translateY(0); opacity: 1 }
+}
+
+@keyframes playafuckingcardalready {
+	from { background: hsl(205,50%,80%); box-shadow: 0 0 0 transparent }
+	to { background: hsl(205,50%,90%); box-shadow: 0 0 .5em hsl(205,50%,80%) }
+}
+
+@keyframes czar {
+	from { background: hsl(25,50%,80%); box-shadow: 0 0 0 transparent }
+	to { background: hsl(25,50%,90%); box-shadow: 0 0 .5em hsl(25,50%,80%) }
+}
+
+@keyframes gameappear {
+	from {
+		opacity: 0;
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+	to {
+		opacity: 1;
+		padding-top: .2rem;
+		padding-bottom: .2rem;
+	}
+}
+
+* {
+	transition: filter 250ms, transform 250ms
+}
+
+.hidden {
+	opacity: 0;
+}
+
+.removed {
+	display: none;
+}
+
+html {
+	font-family: "Liberation Sans", "Helvetica Neue", "Arial", sans-serif;
+	font-size: 1.2rem;
+}
+
+html, body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+body {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+body > header {
+	display: flex;
+	justify-content: space-between;
+	background: hsl(205, 10%, 10%);
+	color: hsl(205, 10%, 90%);
+	padding: 1rem;
+	height: 2.5rem;
+}
+
+h1 {
+	line-height: 2.5rem;
+	margin: 0;
+}
+
+h1 small {
+	font-weight: normal;
+	font-style: italic;
+}
+
+nav * {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+nav li {
+	padding: .05rem 0;
+}
+
+nav a {
+	background-color: hsl(205, 50%, 50%);
+	color: #fff;
+	border: .15rem solid hsl(205, 50%, 50%);
+	border-radius: .25rem;
+	text-decoration: none;
+	padding: .35rem .8rem;
+	margin-left: .6rem;
+	transition: border 100ms, background 100ms, transform 100ms;
+}
+
+nav a:hover {
+	border-color: hsl(205, 50%, 60%) hsl(205, 50%, 50%) hsl(205, 50%, 40%);
+}
+
+nav a:active {
+	background-color: hsl(205, 50%, 45%);
+	border-color: hsl(205, 50%, 35%) hsl(205, 50%, 45%) hsl(205, 50%, 55%);
+	transform: translateY(1px);
+}
+
+nav li.hidden {
+	display: none;
+}
+
+input {
+	font: inherit;
+}
+
+input[type="submit"] {
+	padding: .1rem 1rem;
+}
+
+#d_gamelist {
+	padding: 1rem;
+}
+
+#t_gamelist {
+	background: hsl(205, 5%, 80%);
+	color: #000;
+	border-spacing: .2rem;
+	border-radius: .15rem;
+	width: 50%;
+	margin: 0 auto;
+}
+
+#t_gamelist td {
+	padding: .2rem .6rem;
+	background: #fff;
+	text-align: center;
+	transition: opacity 500ms;
+	animation-name: gameappear;
+	animation-duration: 500ms;
+	animation-iteration-count: 1;
+}
+
+#t_gamelist td:nth-child(odd), #t_gamelist td:last-child {
+	width: 4rem;
+}
+
+#t_gamelist th {
+	text-transform: uppercase;
+	font-size: smaller;
+	padding: .1rem .6rem;
+}
+
+#t_gamelist .disabled td {
+	opacity: 0;
+	cursor: default;
+}
+
+#t_gamelist .disabled a {
+	visibility: hidden;
+}
+
+#d_lightbox {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(0, 0, 0, .6);
+	position: absolute;
+	top: 0;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	transition: opacity 250ms;
+}
+
+#d_lightbox section {
+	background: hsl(205, 5%, 90%);
+	color: #000;
+	border: .15rem solid;
+	border-color: hsl(205, 5%, 100%) hsl(205, 5%, 90%) hsl(205, 5%, 80%);
+	border-radius: .3rem;
+	box-shadow: .25rem .25rem 1rem #000;
+}
+
+#d_lightbox header, #d_lightbox footer {
+	margin-left: -.15rem;
+	margin-right: -.15rem;
+	text-align: center;
+}
+
+#d_lightbox header {
+	background: hsl(205, 50%, 50%);
+	color: #fff;
+	border-top-left-radius: .3rem;
+	border-top-right-radius: .3rem;
+	border-width: .15rem .15rem 0;
+	border-style: solid;
+	border-color: hsl(205, 50%, 60%) hsl(205, 50%, 50%);
+	padding: .6rem;
+	margin-top: -.15rem;
+}
+
+#d_lightbox footer {
+	padding: .4rem;
+	margin-bottom: -.15rem;
+	border-bottom-left-radius: .3rem;
+	border-bottom-right-radius: .3rem;
+}
+
+#d_lightbox h2 {
+	margin: 0;
+	font-size: 1.3rem;
+}
+
+#d_lightbox footer {
+	background: rgba(0,0,0,.1);
+}
+
+#d_lightbox p {
+	margin: 1rem .9rem;
+}
+
+#d_name {
+	margin: auto;
+}
+
+#d_lightbox.removed, #d_lightbox .removed {
+	display: none;
+}
+
+#d_lightbox #d_settings {
+	text-align: left;
+}
+
+#d_settings label {
+	display: block;
+}
+
+#i_blank_cards_display {
+	width: 3rem;
+	display: inline-block;
+	transform: translateY(-.5rem);
+}
+
+#d_settings input[type="range"] {
+	margin: 0;
+}
+
+#d_settings input[type="number"] {
+	width: 4rem;
+}
+
+.field {
+	margin: .4rem 0;
+	vertical-align: middle;
+	display: block;
+}
+
+#d_game {
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 4.5rem;
+	bottom: 0;
+}
+
+#d_gamethings {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 20rem;
+	bottom: 0;
+}
+
+#notify {
+	padding: 0;
+	position: absolute;
+	left: 50%;
+	top: 0;
+	width: 30rem;
+	margin-left: -15rem;
+	z-index: 30;
+}
+
+#notify p {
+	background: hsl(205, 25%, 50%);
+	color: #fff;
+	border-radius: 3pt;
+	cursor: pointer;
+	margin: .5rem;
+	padding: .5rem;
+	transition: background-color 200ms, opacity 1s, margin 1s, box-shadow 1s;
+	text-align: center;
+	box-shadow: 0 0 .5em rgba(0,0,0,.3);
+	animation-name: notification;
+	animation-duration: 400ms;
+}
+
+#notify p.hidden {
+	margin-bottom: 0;
+	margin-top: -2.4rem;
+	box-shadow: 0 0 0 transparent;
+}
+
+#d_table {
+	height: 18.5rem;
+	padding: .5rem;
+	overflow: auto;
+	transition: height 200ms;
+	white-space: nowrap;
+	overflow-y: auto;
+}
+#d_table .card {
+	white-space: normal;
+}
+
+#d_gamestatus {
+	background: hsl(25, 0%, 70%);
+	font-size: 1.2rem;
+	font-weight: bold;
+	height: 1.5rem;
+	padding: .8rem 1.2rem;
+	transition: background 500ms;
+}
+
+#d_gamestatus.alone {
+	background: transparent;
+}
+
+#d_gamestatus:not(.alone) {
+	color: hsl(205,10%,15%);
+}
+
+#d_hand, #d_played {
+	background: hsl(25, 5%, 80%);
+	overflow: auto;
+	padding: .5rem;
+	transition: transform 500ms, opacity 500ms, height 500ms, padding 500ms, opacity 1s;
+	flex: 1 1;
+}
+
+#d_hand {
+	background: hsl(205, 5%, 80%);
+}
+
+#d_hand.hidden, #d_played.hidden {
+	transform: translateY(100vh);
+	opacity: 0;
+	height: 0;
+	padding-top: 0;
+	padding-bottom: 0;
+	overflow: hidden;
+	flex: none;
+}
+
+#d_hand.disabled {
+	opacity: .3;
+}
+
+.card {
+	width: 10rem;
+	height: 15rem;
+	margin: .5rem;
+	padding: 1.2rem;
+	border-radius: .75rem;
+	box-shadow: .25rem .25rem .5rem rgba(0, 0, 0, .5);
+	background: #fff;
+	color: hsl(205, 10%, 15%);
+	display: inline-block;
+	vertical-align: middle;
+	font-size: 1.2rem;
+	font-weight: bold;
+	transition: opacity 500ms, margin 300ms, transform 100ms;
+	/*background-color: #fff;
+	background-image: url("logowhite.svg");
+	background-position: left bottom;
+	background-repeat: no-repeat;
+	background-size: 50%;*/
+}
+.card.resize {
+	visibility: hidden;
+}
+.card.hidden {
+	margin-right: 0;
+	margin-left: -12.4rem;
+}
+.card:not(.black):hover, .cardcombo:hover .card {
+	transform: scale(1.05, 1.05);
+	z-index: 10;
+}
+.card:not(.black):active, .cardcombo:active .card {
+	transform: translateY(3px) scale(1.04, 1.04);
+}
+.card:not(.black) {
+	cursor: pointer;
+}
+.card:not(.black)::first-letter {
+	text-transform: uppercase;
+}
+.disabled .card {
+	transform: none !important;
+	cursor: default !important;
+}
+.card.black {
+	background: hsl(205,10%,15%);
+	color: #fff;
+	cursor: default;
+}
+
+.cardcombo {
+	display: inline-block;
+}
+.cardcombo.multiple {
+	background: rgba(0,0,0,.1);
+	margin: 8px;
+}
+.cardcombo.multiple + .cardcombo.multiple {
+
+}
+
+.white span.blank, .black span.blank {
+	width: 4em;
+	border-bottom: 2px solid;
+	display: inline-block;
+	transform: translateY(2pt);
+}
+
+#d_point span.blank {
+	color: hsl(205,50%,60%);
+	width: auto !important;
+	border: none !important;
+	display: inline !important;
+	transform: none !important;
+}
+#d_point .card {
+	margin: 15px;
+	text-align: left
+}
+
+#d_winner p { font-size: 2rem; font-weight: bold }
+
+#d_confirm { background: hsl(205,50%,60%); color: #fff; overflow: hidden }
+#d_confirm strong { font-size: 3rem; display: block; text-align: center; margin: 10px 0 14px }
+
+#d_playerthings {
+	background: rgba(0,0,0,.1);
+	width: 20rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: stretch;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+}
+
+#d_chat {
+	flex: 1 1;
+	overflow: auto;
+}
+#d_chat p > time, .game_message {
+	font-size: smaller;
+	opacity: .5;
+}
+#d_chat p, #f_chat {
+	margin: .5em;
+}
+#f_chat {
+	height: 1.5rem;
+}
+#i_chat { width: 99% }
+
+#d_scoreboard { border-spacing: 0 3px; width: 100% }
+#d_scoreboard meter {
+	width: 100%;
+}
+#d_scoreboard td { padding: 4px 7px; transition: background 1s, box-shadow 1s }
+#d_scoreboard td:nth-child(2) {
+	width: 3rem;
+	text-align: right;
+}
+#d_scoreboard td:nth-child(3) {
+	font-size: smaller;
+	width: 5.5rem;
+	white-space: nowrap;
+}
+#d_scoreboard meter::after { content: attr(title) }
+
+.playing td:first-child {
+	background: hsl(205,50%,80%);
+	animation-name: playafuckingcardalready;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+	color: hsl(205,10%,15%);
+}
+
+.waitingforplayers td:first-child, .judging td:first-child {
+	background: hsl(25,50%,80%);
+	animation-name: czar;
+	animation-duration: 1.5s;
+	animation-iteration-count: infinite;
+	animation-direction: alternate;
+	color: hsl(205,10%,15%);
+}
+
+[hidden] { display: none !important }
+
+.blur { -webkit-filter: blur(2pt) grayscale(50%); filter: blur(2pt) grayscale(50%); }
+
+@media (max-width: 1920px) {
+	html { font-size: 11pt }
+}
+
+@media (max-width: 1440px) {
+	html { font-size: 10.5pt }
+}
+
+@media (max-width: 1366px) {
+	html { font-size: 9.5pt }
+}
+
+@media (max-width: 1280px) {
+	html { font-size: 9pt }
+}
+
+@media (max-width: 640px) {
+	#d_gamethings { position: static; }
+	#d_playerthings { position: static; width: 100%; display: block }
+	#d_chat { height: 10rem }
+	#d_table, #d_hand, #d_played { white-space: nowrap; overflow-y: auto }
+	#d_table .card, #d_hand .card, #d_played .card { white-space: normal }
+	#d_game { overflow: auto }
+	h1 { display: none; }
+}
+
+@media (max-height: 900px) {
+	.card { height: 10rem }
+	#d_table { height: 13.5rem }
+}

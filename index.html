@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hoo Boy Aloha</title>
+<script type="text/javascript" src="hba.js"></script>
+<link href="hba.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+
+<header>
+
+	<h1>HBA <small>(Hoo Boy Aloha)</small></h1>
+
+	<nav id="nav"
+		><ul
+			><li id="nav_kill" class="gamelist hidden"><a href="">Kill Server</a></li
+			><li id="nav_deck" class="owner hidden"><a href="">Add Deck</a></li
+			><li id="nav_settings" class="game hidden"><a href="">Settings</a></li
+			><li id="nav_start" class="owner hidden"><a href="">Start Game</a></li
+			><li id="nav_create" class="gamelist hidden"><a href="">Create Game</a></li
+			><li id="nav_leave" class="game hidden"><a href="#">Leave Game</a></li
+			><li id="nav_name" class="gamelist game hidden"><a href="">[you]</a></li
+		></ul>
+	</nav>
+
+</header>
+
+<section id="d_gamelist" hidden>
+<table id="t_gamelist">
+<thead><tr>
+	<th><abbr title="Number">#</abbr></th>
+	<th>Owner</th>
+	<th>Players</th>
+	<th>Join</th>
+</tr></thead>
+<tbody></tbody>
+</table>
+</section>
+
+<section id="d_game" hidden>
+
+	<div id="d_gamethings">
+		<div id="d_table">
+			<div id="d_confirm" class="card hidden"><strong>✓</strong> Confirm Selection</div>
+			<div id="d_blackcard" class="card black"></div>
+		</div>
+		<div id="d_gamestatus"></div>
+		<div id="d_hand" class="hidden"></div>
+		<div id="d_played" class="hidden"></div>
+	</div>
+	
+	<div id="d_playerthings">
+		<table id="d_scoreboard"></table>
+		<div id="d_chat"></div>
+		<form action="." method="post" id="f_chat">
+			<input id="i_chat" type="text" value="" name="i_chat" autocomplete="off" placeholder="Chat">
+		</form>
+	</div>
+	
+</section>
+
+<noscript>
+<p>Hello. JavaScript is necessary. Turn it on or stop using the built in Winamp browser.</p>
+</noscript>
+
+<div id="d_lightbox" class="hidden unblurrable">
+
+<section id="d_name">
+<form action="." method="post" id="f_name">
+<header><h2><label for="i_name">What's your name?</label></h2></header>
+<p><input type="text" id="i_name"></p>
+<footer><input type="submit" value="Save"></footer>
+</form>
+</section>
+
+<section id="d_cardcast">
+<form action="." method="post" id="f_cardcast">
+<header><h2>Add a CardCast deck</h2></header>
+<p><label>Enter a CardCast play code: <input type="text" id="i_cardcast"></label></p>
+<footer><input type="submit" value="Add"></footer>
+</form>
+</section>
+
+<section id="d_noserver">
+<header><h2>No game server</h2></header>
+<p>Someone turned the game server off. It's vaguely necessary for this to operate.</p>
+<p>Sorry about that.</p>
+<p>Maybe after you press this button it will be working again:</p>
+<footer><input type="submit" value="Refresh" id="s_noserver"></footer>
+</section>
+
+<section id="d_settings">
+<form action="." method="post" id="f_settings">
+<header><h2>Game settings</h2></header>
+
+<p>
+<label for="i_max_points">Points to win:</label>
+<span class="field number"><input type="number" min="1" max="147" step="1" id="i_max_points"></span>
+</p>
+
+<p>
+<label for="i_max_players">Maximum players:</label>
+<span class="field number"><input type="number" min="0" step="1" id="i_max_players"></span>
+</p>
+
+<p>
+<label for="i_blank_cards">Chance to draw a blank card:</label>
+<span class="field range"><input type="range" min="0" max="100" step="1" id="i_blank_cards"> <span id="i_blank_cards_display"></span></span>
+</p>
+
+<p>
+<label for="i_timeout">Time before round is skipped (0 to disable):</label>
+<span class="field number"><input type="number" min="0" max="600" step="1" id="i_timeout"> seconds</span>
+</p>
+
+<p>
+<label for="i_timeout_cards">Extra time per card for players:</label>
+<span class="field number"><input type="number" min="0" max="600" step="1" id="i_timeout_cards"> seconds</span>
+</p>
+
+<p>
+<label for="i_timeout_players">Extra time per player for czars:</label>
+<span class="field number"><input type="number" min="0" max="600" step="1" id="i_timeout_players"> seconds</span>
+</p>
+
+<footer><input type="submit" value="Save"></footer>
+</form>
+</section>
+
+<section id="d_point">
+<header><h2></h2></header>
+<div class="card"></div>
+</section>
+
+<section id="d_winner">
+<header><h2>Hoo Boy, Here's Trouble</h2></header>
+<p><span></span> has won the game!</p>
+</section>
+
+<section id="d_blank_input">
+<form action="." method="post" id="f_blank_input">
+<header><h2>Devise some text for this white card</h2></header>
+<p>It works better if you don't capitalise the first word or add punctuation.</p>
+<p><input id="i_blank_input" type="text" size="50"></p>
+<footer><input type="submit" value="Play"></footer>
+</form>
+</section>
+
+<section id="d_about">
+<header><h2>About Hoo Boy Aloha</h2></header>
+<p>Hoo Boy Aloha was created by me, and probably by some other people if I ever get off my arse and put it on <del>github</del> <del>Google Code</del> <ins>a GameFAQs board for some obscure game with a funny title</ins>.</p>
+<p>It uses PHP, Ratchet and good old fashioned plain jane DOM JavaScript. I don't even abstract <code>document.getElementById</code>, even though I really really wanted to.</p>
+<p>I am Ryan Rosser and I made this in 2015.</p>
+<p>The name "Hoo Boy Aloha" is a very clever reference to a thing from the 90's, I swear.</p>
+<h3>hbatodo.phtml</h3>
+<ul>
+	<li>test to see if dealing with tabled cards from players who left actually works</li>
+	<li>password / looking for players?</li>
+	<li>adding a deck should announce to players</li>
+	<li>removing a deck should be possible</li>
+	<li>deck UI overhaul</li>
+	<li>spectating</li>
+	<li>kicking/banning</li>
+	<li>split decks into separate server</li>
+</ul>
+<h3>hbadone.yay</h3>
+<ul>
+	<li>blank cards</li>
+	<li>game list sucks</li>
+	<li>game list should update on its own</li>
+	<li>timeouts</li>
+	<li>max user</li>
+	<li>switch from flexbox to absolute positioning for chrome</li>
+	<li>deal with tabled cards from players who left</li>
+</ul>
+</section>
+
+</div>
+
+<aside id="notify" class="unblurrable">
+</aside>
+
+</body>
+</html>
