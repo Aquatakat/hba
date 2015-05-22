@@ -697,7 +697,7 @@ window.addEventListener("DOMContentLoaded", function() {
             var newGameId;
             if (newGameId = window.location.hash.match(/^#([0-9]+)$/)) {
                 if (parseInt(newGameId[1]) !== gameId) {
-                    send("join", newGameId[1]);
+                    send("join", parseInt(newGameId[1]));
                 }
             } else {
                 send("leave", null);
