@@ -24,6 +24,7 @@ class Game {
 	private $total_white_cards = 0;
 	private $max_points = 10;
 	private $max_players = 10;
+	private $hand_size = 10;
 	private $password = '';
 	private $blank_cards = 5;
 	private $timeout = 45;
@@ -178,7 +179,7 @@ class Game {
 		if (!$this->black_card) {
 			throw new \Exception('For some reason I\'m trying to deal white cards before a black card has been dealt.');
 		}
-		$how_many = 10 + $this->black_card->responses - count($player->hand) - 1;
+		$how_many = $this->hand_size + $this->black_card->responses - count($player->hand) - 1;
 		if (!$player->isCzar()) {
 			for ($i = 0; $i < $how_many; $i++) {
 				if (count($this->white_cards) < 1) continue;
@@ -523,7 +524,7 @@ class Game {
 	
 	public function settings($data = null) {
 		
-		$keys = ['max_points', 'max_players', 'blank_cards', 'timeout', 'timeout_cards', 'timeout_players'];
+		$keys = ['max_points', 'max_players', 'blank_cards', 'timeout', 'timeout_cards', 'timeout_players', 'hand_size'];
 		
 		if ($data === null) {
 			
@@ -592,6 +593,15 @@ class Game {
 					)) { throw new \Exception('Hey you. Timeouts have to be between 0 and 600 seconds (10 minutes).'); }
 					
 					$this->{$data['id']} = (int)$data['value'];
+					break;
+					
+				case 'hand_size':
+					if (false === filter_var(
+						$data['value'],
+						\FILTER_VALIDATE_INT,
+						['options' => ['min_range' => 1, 'max_range' => 47]]
+					)) { throw new \Exception('For some delightful reason the number of cards in your hand must be between 1 and the not at all arbitrary number 47.'); }
+					$this->hand_size = $data['value'];
 					break;
 					
 			}
