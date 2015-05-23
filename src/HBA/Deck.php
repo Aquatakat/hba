@@ -24,22 +24,15 @@ class Deck {
 		if ($file === false) {
 			throw new \Exception('Goodness me. Where did that deck go? Try selecting a new one.');
 		}
+		
+		$deck = InputValidator::validate($file, ['black' => ['string'], 'white' => ['string']], true);
 
-		$deck = json_decode($file);
-		if (json_last_error() !== \JSON_ERROR_NONE) {
-			throw new \Exception('Oh sorry. Somehow I managed to fuck up that deck and it didn\'t import right. OOPS: '.json_last_error_msg());
-		}
-
-		if (isset($deck->black)) {
-			foreach ($deck->black as $text) {
-				$this->black_cards->attach(new BlackCard($text));
-			}
+		foreach ($deck->black as $text) {
+			$this->black_cards->attach(new BlackCard($text));
 		}
 		
-		if (isset($deck->white)) {
-			foreach ($deck->white as $text) {
-				$this->white_cards->attach(new WhiteCard($text));
-			}
+		foreach ($deck->white as $text) {
+			$this->white_cards->attach(new WhiteCard($text));
 		}
 
 	}
@@ -59,23 +52,17 @@ class Deck {
 			throw new \Exception('I\'m having serious trouble connecting to the CardCast API. Sorry.');
 		}
 		
-		$data = json_decode($data, true);
-		if (json_last_error() !== JSON_ERROR_NONE) {
-			throw new \Exception('Something has gone terribly wrong with the CardCast API. You probably can\'t fix this.');
+		$data = InputValidator::validate($data, [
+			'calls' => [['text' => ['string']]],
+			'responses' => [['text' => ['string']]]
+		], true);
+		
+		foreach ($data->calls as $black_card) {
+			$this->black_cards->attach(new BlackCard(implode('_', $black_card->text)));
 		}
 		
-		if (!isset($data['calls']) || !isset($data['responses']) || (isset($data['id']) && $data['id'] == 'not found')) {
-			throw new \Exception('This CardCast deck doesn\'t appear to exist. This is terrible.');
-		}
-		
-		foreach ($data['calls'] as $black_card) {
-			if (!isset($black_card['text']) || !is_array($black_card['text'])) continue;
-			$this->black_cards->attach(new BlackCard(implode('_', $black_card['text'])));
-		}
-		
-		foreach ($data['responses'] as $white_card) {
-			if (!isset($white_card['text']) || !is_array($white_card['text'])) continue;
-			$this->white_cards->attach(new WhiteCard(implode('', $white_card['text'])));
+		foreach ($data->responses as $white_card) {
+			$this->white_cards->attach(new WhiteCard(implode('', $white_card->text)));
 		}
 		
 		// I don't know what to do after this.
