@@ -475,8 +475,10 @@ window.addEventListener("DOMContentLoaded", function() {
 	}
 
 	function removeWhiteCard(data) {
-		cards[data].parentNode.removeChild(cards[data]);
-		delete cards[data];
+		if (cards[data]) {
+			cards[data].parentNode.removeChild(cards[data]);
+			delete cards[data];
+		}
 	}
 	
 	function tableWhiteCard(card, id, text) {
