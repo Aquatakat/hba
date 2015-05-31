@@ -102,12 +102,12 @@
 
 <p>
 <label for="i_max_players">Maximum players:</label>
-<span class="field number"><input type="number" min="0" step="1" id="i_max_players"></span>
+<span class="field number"><input type="number" min="0" max="47" step="1" id="i_max_players"></span>
 </p>
 
 <p>
 <label for="i_hand_size">Number of cards in a hand:</label>
-<span class="field number"><input type="number" min="1" step="1" id="i_hand_size"></span>
+<span class="field number"><input type="number" min="1" max="47" step="1" id="i_hand_size"></span>
 </p>
 
 <p>
@@ -132,6 +132,13 @@
 
 <footer><input type="submit" value="Save"></footer>
 </form>
+</section>
+
+<section id="d_playermenu">
+	<header><h2></h2></header>
+	<ul id="d_playermenu"
+		><li id="pm_kick" class="owner hidden"><a href="">Kick</a></li
+	></ul>
 </section>
 
 <section id="d_point">

@@ -73,9 +73,9 @@ window.addEventListener("DOMContentLoaded", function() {
         if (e.target === lightbox_box) closeLightbox();
     });
 	
-	var navElements = document.querySelector("nav > ul").childNodes;
-	
 	function refreshNav(show) {
+		
+		var navElements = document.querySelector("nav > ul").children;
 		for (var i = 0; i < navElements.length; i++) {
 			if (navElements[i].classList) {
 				if (
@@ -89,6 +89,20 @@ window.addEventListener("DOMContentLoaded", function() {
 				}
 			}
 		}
+		
+		var playerMenuElements = document.querySelector("#d_playermenu ul").children;
+		for (var i = 0; i < playerMenuElements.length; i++) {
+			if (playerMenuElements[i].classList) {
+				if (playerMenuElements[i].classList.contains("owner")) {
+					if (show.owner) {
+						playerMenuElements[i].classList.remove("hidden");
+					} else {
+						playerMenuElements[i].classList.add("hidden");
+					}
+				}
+			}
+		}
+		
 	}
 
     var gameListBox = document.getElementById("d_gamelist");
@@ -130,6 +144,17 @@ window.addEventListener("DOMContentLoaded", function() {
 
     var scoreboardBox = document.getElementById("d_scoreboard");
 	var players = {};
+	
+	var playerMenu = document.getElementById("d_playermenu");
+	var playerMenuShowing = false;
+	var playerMenuPlayer = false;
+	
+	function showPlayerMenu(id) {
+		if (!players[id]) return;
+		playerMenuPlayer = id;
+		document.querySelector("#d_playermenu h2").textContent = "Options for " + players[id].getElementsByTagName("td")[0].textContent;
+		openLightbox("d_playermenu");
+	}
 
     function addPlayer(data) {
 		
@@ -147,6 +172,9 @@ window.addEventListener("DOMContentLoaded", function() {
 		} else {
 			chat({text: data.name + " has entered the game"});
 			var row = scoreboardBox.insertRow();
+			row.addEventListener("click", function() {
+				showPlayerMenu(data.id);
+			});
 		}
 		
 		var nameCell = row.insertCell();
@@ -882,6 +910,24 @@ window.addEventListener("DOMContentLoaded", function() {
 		e.preventDefault();
 		send("start", null);
 	});
+	
+/*	document.querySelector("#pm_mute a").addEventListener("click", function(e) {
+		e.preventDefault();
+		send("mute", playerMenuPlayer);
+		closeLightbox();
+	});*/
+	
+	document.querySelector("#pm_kick a").addEventListener("click", function(e) {
+		e.preventDefault();
+		send("kick", playerMenuPlayer);
+		closeLightbox();
+	});
+	
+/*	document.querySelector("#pm_ban a").addEventListener("click", function(e) {
+		e.preventDefault();
+		send("ban", playerMenuPlayer);
+		closeLightbox();
+	});*/
 		
 	document.getElementById("f_chat").addEventListener("submit", function(e) {
 		e.preventDefault();

@@ -233,6 +233,14 @@ class Game {
 		return false;
 	}
 	
+	public function kick(Player $player) {
+		if (!$this->players->contains($player)) {
+			throw new \Exception('That player isn\'t in this game.');
+		}
+		$player->leaveGame();
+		$player->sendError('kick', 'You have been kicked from this game.');
+	}
+	
     public function leave(Player $player) {
         if ($this->players->contains($player)) {
 			$this->players->detach($player);

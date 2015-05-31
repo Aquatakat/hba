@@ -8,7 +8,7 @@
 /* form definition:
 
 $form = "[type]";
-// where [type] is a type listed by
+// where [type] is a type listed by php.net/function.gettype
 
 $form = ["string"];
 // an array filled solely with strings
