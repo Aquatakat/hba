@@ -108,9 +108,10 @@ class Player {
 
     public function leaveGame() {
 		$this->returnAllCards();
-        if (!$this->game) return;
+		$this->server->games->sendAllGames($this);
+		if (!$this->game) return;
         $this->game->leave($this);
-        $this->game = false;
+		$this->game = false;
 		$this->score = 0;
     }
 

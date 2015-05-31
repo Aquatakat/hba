@@ -98,7 +98,7 @@ nav li {
 	padding: .05rem 0;
 }
 
-nav a {
+nav a, #d_playermenu a {
 	background-color: hsl(205, 50%, 50%);
 	color: #fff;
 	border: .15rem solid hsl(205, 50%, 50%);
@@ -109,11 +109,11 @@ nav a {
 	transition: border 100ms, background 100ms, transform 100ms;
 }
 
-nav a:hover {
+nav a:hover, #d_playermenu a:hover {
 	border-color: hsl(205, 50%, 60%) hsl(205, 50%, 50%) hsl(205, 50%, 40%);
 }
 
-nav a:active {
+nav a:active, #d_playermenu a:active {
 	background-color: hsl(205, 50%, 45%);
 	border-color: hsl(205, 50%, 35%) hsl(205, 50%, 45%) hsl(205, 50%, 55%);
 	transform: translateY(1px);
@@ -129,6 +129,24 @@ input {
 
 input[type="submit"] {
 	padding: .1rem 1rem;
+}
+
+#d_playermenu ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+#d_playermenu li {
+	list-style: none;
+	margin: .75rem;
+	padding: 0;
+}
+
+#d_playermenu a {
+	display: block;
+	margin-left: 0;
+	text-align: center;
 }
 
 #d_gamelist {

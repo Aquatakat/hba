@@ -11,7 +11,7 @@ mb_internal_encoding('UTF-8');
 class GameServer implements MessageComponentInterface {
     private $clients;
     private $players = [];
-    private $games;
+    public $games;
     private $decks;
 	private $error_codes = [
 		0 => 'name'
@@ -57,7 +57,6 @@ class GameServer implements MessageComponentInterface {
 
 				case 'leave':
 					$player->leaveGame();
-					$this->games->sendAllGames($player);
 					break;
 
 				case 'create':
@@ -91,6 +90,16 @@ class GameServer implements MessageComponentInterface {
 				case 'chat':
 					if (!$player->game) throw new \Exception('You sent a chat message while not in a game. What.');
 					$player->game->chat($player, InputValidator::validate($data, "string"));
+					break;
+					
+				case 'kick':
+					if ($player->isOwner()) {
+						$data = InputValidator::validate($data, 'integer');
+						if (!isset($this->players[$data])) {
+							throw new \Exception('You just tried to kick a player that doesn\'t exist. Good job.');
+						}
+						$player->game->kick($this->players[$data]);
+					}
 					break;
 				
 				case 'play':
