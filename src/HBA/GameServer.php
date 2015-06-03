@@ -24,9 +24,9 @@ class GameServer implements MessageComponentInterface {
         $this->decks = new DeckList;
     }
 	
-	public function isNameInUse($name, $queryingPlayer) {
+	public function isNameInUse($name) {
 		foreach ($this->players as $player) {
-			if ($queryingPlayer != $player && $player->name === $name) return true;
+			if ($player->name === $name) return true;
 		}
 		return false;
 	}

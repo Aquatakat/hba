@@ -8,11 +8,6 @@ function pad(n, width, z) {
 }
 
 window.addEventListener("DOMContentLoaded", function() {
-	
-	var noises = false;
-	var textToSpeech = false;
-	var winRoundNoise = false;
-	var loseRoundNoise = false;
 
     function notify(text) {
         var p = document.createElement("p");
@@ -42,21 +37,21 @@ window.addEventListener("DOMContentLoaded", function() {
         p.addEventListener("click", function(e) { hide(0); });
     }
 
-    var lightboxBox = document.getElementById("d_lightbox");
-	var lightboxClosing;
+    var lightbox_box = document.getElementById("d_lightbox");
+	var lightbox_closing;
 
-    function closeLightbox(noReset) {
-        lightboxBox.classList.add("hidden");
+    function closeLightbox() {
+        lightbox_box.classList.add("hidden");
         var notLightbox = document.querySelectorAll("body > :not(.unblurrable)");
         for (var i = 0; i < notLightbox.length; i++) {
             notLightbox[i].classList.remove("blur");
         }
-        lightboxClosing = window.setTimeout(function() { lightboxBox.hidden = true; }, 250);
+        lightbox_closing = window.setTimeout(function() { lightbox_box.hidden = true; }, 250);
     }
 
     function openLightbox(show) {
-		window.clearTimeout(lightboxClosing);
-        var sections = lightboxBox.querySelectorAll("section");
+		window.clearTimeout(lightbox_closing);
+        var sections = lightbox_box.querySelectorAll("section");
         for (var i = 0; i < sections.length; i++) {
             sections[i].hidden = true;
         }
@@ -66,16 +61,16 @@ window.addEventListener("DOMContentLoaded", function() {
         }
         document.getElementById(show).hidden = false;
 		document.getElementById(show).classList.remove("hidden");
-        lightboxBox.hidden = false;
+        lightbox_box.hidden = false;
 		var input = document.getElementById(show).querySelector("input");
 		if (input && input.select) {
 			input.select();
 		}
-        window.setTimeout(function() { lightboxBox.classList.remove("hidden"); }, 50);
+        window.setTimeout(function() { lightbox_box.classList.remove("hidden"); }, 50);
     }
 
-    lightboxBox.addEventListener("click", function(e) {
-        if (e.target === lightboxBox) closeLightbox();
+    lightbox_box.addEventListener("click", function(e) {
+        if (e.target === lightbox_box) closeLightbox();
     });
 	
 	function refreshNav(show) {
@@ -221,13 +216,13 @@ window.addEventListener("DOMContentLoaded", function() {
 		
 	function chat(data) {
 		
-		if (textToSpeech && "speechSynthesis" in window) {
+		/*if ("speechSynthesis" in window) {
 			var say = data.text;
 			if (data.from) {
 				say = data.from + " says " + say;
 			}
 			speechSynthesis.speak(new SpeechSynthesisUtterance(say));
-		}
+		}*/
 		
 		var currentTime = new Date();
 		var newChatItem = document.createElement("p");
@@ -583,12 +578,6 @@ window.addEventListener("DOMContentLoaded", function() {
 		var pointBox = document.getElementById("d_point");
 		pointBox.removeChild(pointBox.querySelector(".card"));
 		
-		if (isCzar || data.isYou) {
-			winRoundNoise.play();
-		} else {
-			loseRoundNoise.play();
-		}
-		
 		pointBox.querySelector("h2").textContent = data.player + " wins the round";
 		chat({text: pointBox.querySelector("h2").textContent});
 		
@@ -871,8 +860,6 @@ window.addEventListener("DOMContentLoaded", function() {
 
     document.querySelector("#nav_name a").addEventListener("click", function(e) {
         e.preventDefault();
-		document.getElementById("i_noises").checked = noises;
-		document.getElementById("i_texttospeech").checked = textToSpeech;
         openLightbox("d_name");
     });
 	
@@ -885,14 +872,6 @@ window.addEventListener("DOMContentLoaded", function() {
         e.preventDefault();
         closeLightbox();
         send("name", document.getElementById("i_name").value);
-		noises = document.getElementById("i_noises").checked;
-		if (noises) {
-			if (!winRoundNoise || !loseRoundNoise) {
-				winRoundNoise = new Audio("win.ogg");
-				loseRoundNoise = new Audio("lose.ogg");
-			}
-		}
-		textToSpeech = document.getElementById("i_texttospeech").checked;
     });
 	
 	settingsForm.addEventListener("submit", function(e) {

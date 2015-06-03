@@ -527,9 +527,7 @@ class Game {
 		foreach ($this->black_card->response_types as $key => $response_type) {
 			$cards[$key] = $hand['cards'][$key]->$response_type;
 		}
-		foreach ($this->players as $player) {
-			$player->send('point', ['player' => $hand['player']->name, 'cards' => $cards, 'isYou' => $player == $hand['player']]);
-		}
+		$this->sendToAll('point', ['player' => $hand['player']->name, 'cards' => $cards]);
 	}
 	
 	public function settings($data = null) {
