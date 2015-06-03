@@ -36,7 +36,7 @@ class Game {
 	private $table = [];
 
     public function __construct($conn, $games, $decks) {
-        $this->players = new \SplObjectStorage; // I don't know why I'm doing this.
+		$this->players = new \SplObjectStorage; // I don't know why I'm doing this.
 		$this->czar_queue = new \SplObjectStorage;
         $this->conn = $conn;
         $this->game_list = $games;
@@ -527,7 +527,9 @@ class Game {
 		foreach ($this->black_card->response_types as $key => $response_type) {
 			$cards[$key] = $hand['cards'][$key]->$response_type;
 		}
-		$this->sendToAll('point', ['player' => $hand['player']->name, 'cards' => $cards]);
+		foreach ($this->players as $player) {
+			$player->send('point', ['player' => $hand['player']->name, 'cards' => $cards, 'isYou' => $player == $hand['player']]);
+		}
 	}
 	
 	public function settings($data = null) {
