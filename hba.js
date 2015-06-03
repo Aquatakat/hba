@@ -111,6 +111,7 @@ window.addEventListener("DOMContentLoaded", function() {
 	var games = {};
 
     function buildGameList(data) {
+		clearScoreboard();
 		refreshNav({gamelist:1});
 		games = {};
 		gameTable.tBodies[0].textContent = "";
@@ -397,7 +398,6 @@ window.addEventListener("DOMContentLoaded", function() {
 	var resizeTimeout;
 	
 	function fitAllCardTexts() {
-		console.log("eggplant");
 		var cards = document.querySelectorAll('.card:not(.resize)');
 		for (var i = 0; i < cards.length; i++) {
 			fitCardText(cards[i]);
@@ -579,8 +579,9 @@ window.addEventListener("DOMContentLoaded", function() {
 		pointBox.removeChild(pointBox.querySelector(".card"));
 		
 		pointBox.querySelector("h2").textContent = data.player + " wins the round";
+		chat({text: pointBox.querySelector("h2").textContent});
 		
-		var winCard = blackCard.cloneNode(true);
+		var winCard = document.getElementById("d_blackcard").cloneNode(true);
 		var blanks = winCard.querySelectorAll("span");
 		data.cards.forEach(function(card, i) {
 			blanks[i].textContent = card;
@@ -597,8 +598,6 @@ window.addEventListener("DOMContentLoaded", function() {
 			playedCards = {};
 			playedCardPlayed = false;
 		}, 4000);
-		
-		chat({text: pointBox.querySelector("h2").textContent});
 		
 		fitCardText(winCard);
 	}
