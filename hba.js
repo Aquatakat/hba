@@ -45,7 +45,7 @@ window.addEventListener("DOMContentLoaded", function() {
     var lightboxBox = document.getElementById("d_lightbox");
 	var lightboxClosing;
 
-    function closeLightbox() {
+    function closeLightbox(noReset) {
         lightboxBox.classList.add("hidden");
         var notLightbox = document.querySelectorAll("body > :not(.unblurrable)");
         for (var i = 0; i < notLightbox.length; i++) {
