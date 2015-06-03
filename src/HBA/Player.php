@@ -63,7 +63,7 @@ class Player {
 				}
 				
 				$value = mb_substr($value, 0, 40);
-				if ($this->server->isNameInUse($value) !== false) {
+				if ($this->server->isNameInUse($value, $this) !== false) {
 					throw new \Exception('Someone\'s already using that name. You must be more original.');
 				}
                 $this->name = $value;

@@ -69,8 +69,10 @@
 
 <section id="d_name">
 <form action="." method="post" id="f_name">
-<header><h2><label for="i_name">What's your name?</label></h2></header>
-<p><input type="text" id="i_name"></p>
+<header><h2><label for="i_name">Things About You</label></h2></header>
+<p><label for="i_name">Name:</label> <input type="text" id="i_name"></p>
+<p><label><input type="checkbox" id="i_noises"> Make noise when someone wins a round</label></p>
+<p><label><input type="checkbox" id="i_texttospeech"> Read the chat box aloud (<a href="//caniuse.com/speech-synthesis">limited browser support</a>)</label></p>
 <footer><input type="submit" value="Save"></footer>
 </form>
 </section>
