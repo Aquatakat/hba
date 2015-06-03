@@ -8,7 +8,7 @@ function pad(n, width, z) {
 }
 
 window.addEventListener("DOMContentLoaded", function() {
-	
+
 	var noises = false;
 	var textToSpeech = false;
 	var winRoundNoise = false;
@@ -29,7 +29,7 @@ window.addEventListener("DOMContentLoaded", function() {
 				}, 1000);
             }, duration);
         };
-		
+
 		hide(3000);
 
         p.addEventListener("mouseover", function(e) {
@@ -77,9 +77,9 @@ window.addEventListener("DOMContentLoaded", function() {
     lightboxBox.addEventListener("click", function(e) {
         if (e.target === lightboxBox) closeLightbox();
     });
-	
+
 	function refreshNav(show) {
-		
+
 		var navElements = document.querySelector("nav > ul").children;
 		for (var i = 0; i < navElements.length; i++) {
 			if (navElements[i].classList) {
@@ -94,7 +94,7 @@ window.addEventListener("DOMContentLoaded", function() {
 				}
 			}
 		}
-		
+
 		var playerMenuElements = document.querySelector("#d_playermenu ul").children;
 		for (var i = 0; i < playerMenuElements.length; i++) {
 			if (playerMenuElements[i].classList) {
@@ -107,7 +107,7 @@ window.addEventListener("DOMContentLoaded", function() {
 				}
 			}
 		}
-		
+
 	}
 
     var gameListBox = document.getElementById("d_gamelist");
@@ -123,9 +123,9 @@ window.addEventListener("DOMContentLoaded", function() {
 		gameListBox.hidden = false;
 		gameBox.hidden = true;
     }
-	
+
 	function addGame(data) {
-		
+
 		if (games[data.id]) {
 			var row = games[data.id];
 		} else {
@@ -136,25 +136,25 @@ window.addEventListener("DOMContentLoaded", function() {
 			row.insertCell();
 			games[data.id] = row;
 		}
-		
+
 		row.cells[0].textContent = data.id;
 		row.cells[1].textContent = data.owner;
 		row.cells[2].textContent = data.players + "/" + data.maxPlayers;
 		row.cells[3].innerHTML = '<a href="#' + data.id + '">Join</a>';
-		
+
 		if (data.players <= 0) {
 			row.classList.add("disabled");
 		}
-		
+
 	}
 
     var scoreboardBox = document.getElementById("d_scoreboard");
 	var players = {};
-	
+
 	var playerMenu = document.getElementById("d_playermenu");
 	var playerMenuShowing = false;
 	var playerMenuPlayer = false;
-	
+
 	function showPlayerMenu(id) {
 		if (!players[id]) return;
 		playerMenuPlayer = id;
@@ -163,11 +163,11 @@ window.addEventListener("DOMContentLoaded", function() {
 	}
 
     function addPlayer(data) {
-		
+
 		if (data.name == "") {
 			data.name = "Player " + data.id;
 		}
-		
+
 		if (players[data.id]) {
 			row = players[data.id];
 			var oldName = row.getElementsByTagName("td")[0].textContent;
@@ -182,13 +182,13 @@ window.addEventListener("DOMContentLoaded", function() {
 				showPlayerMenu(data.id);
 			});
 		}
-		
+
 		var nameCell = row.insertCell();
 		nameCell.textContent = data.name;
-		
+
 		var scoreCell = row.insertCell();
 		var scoreText = row.insertCell();
-		
+
 		var scoreMeter = document.createElement("meter");
 		scoreText.textContent = data.score + " Aloha Point" + (data.score != 1 ? "s" : "");
 		if ("value" in scoreMeter) {
@@ -197,30 +197,30 @@ window.addEventListener("DOMContentLoaded", function() {
 			scoreMeter.textContent = data.score + "/" + data.maxScore;
 			scoreCell.appendChild(scoreMeter);
 		}
-		
+
 		row.className = "";
 		row.classList.add(data.state);
-		
+
 		players[data.id] = row;
     }
-	
+
 	function removePlayer(data) {
 		chat({text: players[data].getElementsByTagName("td")[0].textContent + " has left the game"});
 		scoreboardBox.firstChild.removeChild(players[data]);
 		delete players[data];
 	}
-	
+
 	function clearScoreboard() {
 		for (var i = 0; i < players.length; i++) {
 			players[i].parentNode.removeNode(players[i]);
 			delete players[i];
 		}
 	}
-	
+
 	var chatBox = document.getElementById("d_chat");
-		
+
 	function chat(data) {
-		
+
 		if (textToSpeech && "speechSynthesis" in window) {
 			var say = data.text;
 			if (data.from) {
@@ -228,27 +228,27 @@ window.addEventListener("DOMContentLoaded", function() {
 			}
 			speechSynthesis.speak(new SpeechSynthesisUtterance(say));
 		}
-		
+
 		var currentTime = new Date();
 		var newChatItem = document.createElement("p");
-		
+
 		if ("from" in data) {
 			var newChatFrom = document.createElement("b");
 			newChatFrom.textContent = data.from + ":";
 		}
-		
+
 		var newChatTime = document.createElement("time");
 		newChatTime.dateTime = currentTime.toISOString();
 		newChatTime.title = currentTime.toString();
 		newChatTime.textContent = pad(currentTime.getHours().toString(), 2) + ":" + pad(currentTime.getMinutes().toString(), 2);
-		
+
 		var newChatMessage = document.createElement("span");
 		if ("html" in data) {
 			newChatMessage.innerHTML = data.text;
 		} else {
 			newChatMessage.textContent = data.text;
 		}
-		
+
 		newChatItem.appendChild(newChatTime);
 		if (data.from) {
 			newChatItem.appendChild(document.createTextNode(" "));
@@ -260,7 +260,7 @@ window.addEventListener("DOMContentLoaded", function() {
 		newChatItem.appendChild(newChatMessage);
 
 		chatBox.appendChild(newChatItem);
-		
+
 		chatBox.scrollTop = chatBox.scrollHeight;
 		return newChatItem;
 	}
@@ -279,29 +279,29 @@ window.addEventListener("DOMContentLoaded", function() {
 	var playedCards;
 	var playedCardPlayed;
 	var blankTexts;
-	
+
 	var warningTimeout;
 	var timeoutTimer;
 	var interruptAt;
-	
+
 	function handleTimeout(data) {
 		window.clearTimeout(warningTimeout);
 		window.clearInterval(timeoutTimer);
-			
+
 		interruptAt = new Date(Date.now() + data * 1000);
-		
+
 		if (data <= 0) {
 			interruptRound();
 		}
-		
+
 		if (data > 5) {
 			warningTimeout = window.setTimeout(startTimer, (data - 5) * 1000);
 		} else {
 			startTimer(data);
 		}
-		
+
 	}
-	
+
 	function interruptRound(timerElement) {
 		if (isOwner) {
 			send("timeout", false);
@@ -312,13 +312,13 @@ window.addEventListener("DOMContentLoaded", function() {
 			timerElement.parentNode.parentNode.parentNode.removeChild(timerElement.parentNode.parentNode);
 		}
 	}
-	
+
 	function startTimer() {
 		var timerElement = chat({text: "This round will end in <time>5.0</time> seconds", html: true});
 		// Math.round((interruptAt.getTime() - Date.now()) / 1000)
 		timeoutTimer = window.setInterval(updateTimer, 100, timerElement.querySelector("span time"));
 	}
-	
+
 	function updateTimer(timerElement) {
 		if (interruptAt.getTime() - Date.now() <= 0) {
 			window.clearInterval(timeoutTimer);
@@ -327,27 +327,27 @@ window.addEventListener("DOMContentLoaded", function() {
 			timerElement.textContent = ((interruptAt.getTime() - Date.now()) / 1000).toFixed(1);
 		}
 	}
-	
+
 	function clearGame() {
 		blackCard.classList.add("hidden");
-		
+
 		cards = {};
 		cardsPlayed = [];
-		
+
 		playedCards = {};
 		playedCardPlayed = false;
-		
+
 		blankTexts = {};
-		
+
 		hand.textContent = "";
 		for (var i = 2; i < table.children.length; i++) {
 			table.children[i].parentNode.removeNode(table.children[i]);
 		}
-		
+
 	}
-	
+
 	clearGame();
-	
+
     function buildGame(data) {
 		clearScoreboard();
 		refreshNav({game:1});
@@ -356,7 +356,7 @@ window.addEventListener("DOMContentLoaded", function() {
 		clearGame();
 		chatBox.textContent = "";
     }
-	
+
 	function generateBlank(card) {
 		card.textContent = "";
 		card.classList.add("blank");
@@ -372,7 +372,7 @@ window.addEventListener("DOMContentLoaded", function() {
 	resizeCard.classList.add("resize");
 	resizeCard.appendChild(document.createElement("span"));
 	document.body.appendChild(resizeCard);
-	
+
 	function innerHeight(el) {
 		var style = window.getComputedStyle(el);
 		return el.clientHeight
@@ -399,36 +399,36 @@ window.addEventListener("DOMContentLoaded", function() {
 			el.style.fontSize = resizeCard.style.fontSize;
 		}
 	}
-	
+
 	var resizeTimeout;
-	
+
 	function fitAllCardTexts() {
 		var cards = document.querySelectorAll('.card:not(.resize)');
 		for (var i = 0; i < cards.length; i++) {
 			fitCardText(cards[i]);
 		}
 	}
-	
+
 	window.addEventListener("resize", function() {
 		window.clearTimeout(resizeTimeout);
 		resizeTimeout = window.setTimeout(fitAllCardTexts, 100);
 	});
-	
+
 	function addWhiteCard(data) {
-		
+
 		var card = document.createElement("div");
-		
+
 		if (data.text === null) {
 			generateBlank(card);
 		} else {
 			card.textContent = data.text;
 		}
-		
+
 		card.classList.add("card");
 		card.classList.add("white");
 		hand.appendChild(card);
 		cards[data.id] = card;
-		
+
 		var checkConfirm = function() {
 			if (cardsPlayed.length >= responses) {
 				confirm.classList.remove("hidden");
@@ -436,7 +436,7 @@ window.addEventListener("DOMContentLoaded", function() {
 				confirm.classList.add("hidden");
 			}
 		};
-		
+
 		var cardHandler = function(e) {
 			e.preventDefault();
 			var card_id = data.id;
@@ -447,11 +447,11 @@ window.addEventListener("DOMContentLoaded", function() {
 						var clonee = document.getElementById("f_blank_input");
 						var clone = clonee.cloneNode(true);
 						clonee.parentNode.replaceChild(clone, clonee);
-						
-						var blankCardInputInput = document.getElementById("i_blank_input");						
+
+						var blankCardInputInput = document.getElementById("i_blank_input");
 						blankCardInputInput.value = "";
 						openLightbox("d_blank_input");
-						
+
 						document.getElementById("f_blank_input").addEventListener("submit", function(e) {
 							e.preventDefault();
 							card.textContent = blankCardInputInput.value;
@@ -473,9 +473,9 @@ window.addEventListener("DOMContentLoaded", function() {
 				checkConfirm();
 			}
 		};
-		
+
 		card.addEventListener("click", cardHandler);
-		
+
 		fitCardText(card);
 	}
 
@@ -485,17 +485,17 @@ window.addEventListener("DOMContentLoaded", function() {
 			delete cards[data];
 		}
 	}
-	
+
 	function tableWhiteCard(card, id, text) {
 		table.appendChild(card);
 		cardsPlayed.push(id);
 	}
-	
+
 	function unTableWhiteCard(card, id) {
 		hand.appendChild(card);
 		cardsPlayed.splice(cardsPlayed.indexOf(id), 1);
 	}
-	
+
 	function addPlayedCard(data) {
 		var cardCombo = document.createElement("div");
 		cardCombo.classList.add("cardcombo");
@@ -526,22 +526,22 @@ window.addEventListener("DOMContentLoaded", function() {
 			});
 		}
 	}
-	
+
 	function removePlayedCard(data) {
 		playedCards[data].parentNode.removeChild(playedCards[data]);
 		delete playedCards[data];
 	}
-	
+
 	function tablePlayedCard(cardCombo, id) {
 		table.appendChild(cardCombo);
 		playedCardPlayed = id;;
 	}
-	
+
 	function unTablePlayedCard(cardCombo, id) {
 		played.appendChild(cardCombo);
 		playedCardPlayed = false;
 	}
-	
+
 	confirm.addEventListener("click", function(e) {
 		e.preventDefault();
 		if (isCzar) {
@@ -559,7 +559,7 @@ window.addEventListener("DOMContentLoaded", function() {
 		}
 		confirm.classList.add("hidden");
 	});
-	
+
 	function setBlackCard(data) {
 		blackCard.textContent = "";
 		var split = data.text.split("_");
@@ -578,27 +578,27 @@ window.addEventListener("DOMContentLoaded", function() {
 		}
 		fitCardText(blackCard);
 	}
-	
+
 	function displayPoint(data) {
 		var pointBox = document.getElementById("d_point");
 		pointBox.removeChild(pointBox.querySelector(".card"));
-		
+
 		if (isCzar || data.isYou) {
 			winRoundNoise.play();
 		} else {
 			loseRoundNoise.play();
 		}
-		
+
 		pointBox.querySelector("h2").textContent = data.player + " wins the round";
 		chat({text: pointBox.querySelector("h2").textContent});
-		
+
 		var winCard = document.getElementById("d_blackcard").cloneNode(true);
 		var blanks = winCard.querySelectorAll("span");
 		data.cards.forEach(function(card, i) {
 			blanks[i].textContent = card;
 		});
 		pointBox.appendChild(winCard);
-		
+
 		openLightbox("d_point");
 		window.setTimeout(function() {
 			closeLightbox();
@@ -609,10 +609,10 @@ window.addEventListener("DOMContentLoaded", function() {
 			playedCards = {};
 			playedCardPlayed = false;
 		}, 4000);
-		
+
 		fitCardText(winCard);
 	}
-	
+
 	function displayWinner(data) {
 		var winner = document.querySelector("#d_winner span");
 		winner.textContent = data;
@@ -620,13 +620,13 @@ window.addEventListener("DOMContentLoaded", function() {
 		chat({text: data + " wins the game"});
 		clearGame();
 	}
-	
+
 	function updateGameStatus(data) {
-		
+
 		/*if (data !== "ready") {
 			closeLightbox();
 		}*/
-		
+
 		var gameStatus = document.getElementById("d_gamestatus");
 		var texts = {
 			ready: "Waiting for the game to start",
@@ -636,13 +636,13 @@ window.addEventListener("DOMContentLoaded", function() {
 			played: "Waiting for the other players",
 			judging: "Select the best combination"
 		}
-		
+
 		if (texts[data]) {
 			gameStatus.textContent = texts[data];
 		}
-		
+
 		isCzar = false;
-		
+
 		var handStates = {
 			ready: "hidden",
 			waitingforplayers: "hidden",
@@ -651,9 +651,9 @@ window.addEventListener("DOMContentLoaded", function() {
 			played: "disabled",
 			judging: "hidden"
 		}
-		
+
 		hand.className = handStates[data];
-		
+
 		var playedStates = {
 			ready: "hidden",
 			waitingforplayers: "hidden",
@@ -662,9 +662,9 @@ window.addEventListener("DOMContentLoaded", function() {
 			played: "hidden",
 			judging: ""
 		}
-		
+
 		played.className = playedStates[data];
-		
+
 		var tableStates = {
 			ready: "disabled",
 			waitingforplayers: "disabled",
@@ -673,51 +673,51 @@ window.addEventListener("DOMContentLoaded", function() {
 			played: "disabled",
 			judging: ""
 		}
-		
+
 		table.className = tableStates[data];
-		
+
 		if (data == "ready" || data == "playing" || data == "judging") {
 			cardsPlayed = [];
 			playedCardPlayed = false;
 		}
-		
+
 		if (data != "played") {
 			window.clearTimeout(warningTimeout);
 			window.clearInterval(timeoutTimer);
 		}
-		
+
 		if (data == "ready") {
-			
+
 			blackCard.classList.add("hidden");
-			
+
 			played.textContent = "";
-			
+
 			var tabledCards = table.querySelectorAll(".cardcombo, .card");
 			for (var i = 2; i < tabledCards.length; i++) {
 				tabledCards[i].parentNode.removeChild(tabledCards[i]);
 			}
-			
+
 		} else {
 			blackCard.classList.remove("hidden");
 		}
-		
+
 		isCzar = (data == "judging" || data == "waitingforplayers");
-		
+
 		if (hand.className == "hidden" && played.className == "hidden") {
 			gameStatus.classList.add("alone");
 		} else {
 			gameStatus.classList.remove("alone");
 		}
-		
+
 	}
-	
+
 	function fillSettings(data) {
 		data.forEach(function(setting, i, array) {
 			document.getElementById("i_" + setting.id).value = setting.value;
 		});
 		blankCardsUpdate();
 	}
-	
+
 	var settingsForm = document.getElementById("f_settings");
 
 	function enableSettings(enable) {
@@ -772,7 +772,7 @@ window.addEventListener("DOMContentLoaded", function() {
             case "gamelist":
                 buildGameList(data);
                 break;
-				
+
 			case "game":
 				addGame(data);
 				break;
@@ -786,7 +786,7 @@ window.addEventListener("DOMContentLoaded", function() {
             case "player":
                 addPlayer(data);
                 break;
-				
+
 			case "removeplayer":
 				removePlayer(data);
 				break;
@@ -795,7 +795,7 @@ window.addEventListener("DOMContentLoaded", function() {
 				responses = data.responses;
 				setBlackCard(data);
 				break;
-				
+
 			case "draw":
 				addWhiteCard(data);
 				break;
@@ -803,15 +803,15 @@ window.addEventListener("DOMContentLoaded", function() {
 			case "return":
 				removeWhiteCard(data);
 				break;
-				
+
 			case "state":
 				updateGameStatus(data);
 				break;
-				
+
 			case "point":
 				displayPoint(data);
 				break;
-				
+
 			case "owner":
 				if (data) {
 					refreshNav({game: 1, owner: 1});
@@ -821,32 +821,32 @@ window.addEventListener("DOMContentLoaded", function() {
 				enableSettings(data);
 				isOwner = data;
 				break;
-				
+
 			case "table":
 				addPlayedCard(data);
 				break;
-				
+
 			case "notify":
 				notify(data);
 				break;
-				
+
 			case "settings":
 				fillSettings(data);
 				openLightbox("d_settings");
 				break;
-				
+
 			case "gamewinner":
 				displayWinner(data);
 				break;
-				
+
 			case "chat":
 				chat(data);
 				break;
-				
+
 			case "timeout":
 				handleTimeout(data);
 				break;
-				
+
 			case "removetable":
 				removePlayedCard(data);
 				break;
@@ -875,7 +875,7 @@ window.addEventListener("DOMContentLoaded", function() {
 		document.getElementById("i_texttospeech").checked = textToSpeech;
         openLightbox("d_name");
     });
-	
+
 	document.querySelector("#nav_create a").addEventListener("click", function(e) {
 		e.preventDefault();
 		send("create", null);
@@ -894,7 +894,7 @@ window.addEventListener("DOMContentLoaded", function() {
 		}
 		textToSpeech = document.getElementById("i_texttospeech").checked;
     });
-	
+
 	settingsForm.addEventListener("submit", function(e) {
 		e.preventDefault();
 		closeLightbox();
@@ -912,7 +912,7 @@ window.addEventListener("DOMContentLoaded", function() {
         e.preventDefault();
         document.location.reload();
     });
-	
+
 	document.querySelector("#nav_settings a").addEventListener("click", function (e) {
 		e.preventDefault();
 		send("settings", null);
@@ -927,30 +927,30 @@ window.addEventListener("DOMContentLoaded", function() {
         e.preventDefault();
         openLightbox("d_cardcast");
     });
-	
+
 	document.querySelector("#nav_start a").addEventListener("click", function(e) {
 		e.preventDefault();
 		send("start", null);
 	});
-	
+
 /*	document.querySelector("#pm_mute a").addEventListener("click", function(e) {
 		e.preventDefault();
 		send("mute", playerMenuPlayer);
 		closeLightbox();
 	});*/
-	
+
 	document.querySelector("#pm_kick a").addEventListener("click", function(e) {
 		e.preventDefault();
 		send("kick", playerMenuPlayer);
 		closeLightbox();
 	});
-	
+
 /*	document.querySelector("#pm_ban a").addEventListener("click", function(e) {
 		e.preventDefault();
 		send("ban", playerMenuPlayer);
 		closeLightbox();
 	});*/
-		
+
 	document.getElementById("f_chat").addEventListener("submit", function(e) {
 		e.preventDefault();
 		send("chat", document.getElementById("i_chat").value);
@@ -962,12 +962,12 @@ window.addEventListener("DOMContentLoaded", function() {
          send("cardcast", document.getElementById("i_cardcast").value);
          closeLightbox();
     });
-	
+
 	document.getElementsByTagName("h1")[0].addEventListener("dblclick", function(e) {
 		e.preventDefault();
 		openLightbox("d_about");
 	});
-	
+
 	var blankCardsInput = document.getElementById("i_blank_cards");
 	function blankCardsUpdate(e) {
 		document.getElementById("i_blank_cards_display").textContent = "" + blankCardsInput.value + "%";
