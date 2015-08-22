@@ -202,12 +202,15 @@ window.addEventListener("DOMContentLoaded", function() {
 		row.classList.add(data.state);
 
 		players[data.id] = row;
+		
+		positionChat();
     }
 
 	function removePlayer(data) {
 		chat({text: players[data].getElementsByTagName("td")[0].textContent + " has left the game"});
 		scoreboardBox.firstChild.removeChild(players[data]);
 		delete players[data];
+		positionChat();
 	}
 
 	function clearScoreboard() {
@@ -215,9 +218,11 @@ window.addEventListener("DOMContentLoaded", function() {
 			players[i].parentNode.removeNode(players[i]);
 			delete players[i];
 		}
+		positionChat();
 	}
 
 	var chatBox = document.getElementById("d_chat");
+	var chatInputBox = document.getElementById("f_chat");
 
 	function chat(data) {
 
@@ -263,6 +268,12 @@ window.addEventListener("DOMContentLoaded", function() {
 
 		chatBox.scrollTop = chatBox.scrollHeight;
 		return newChatItem;
+	}
+	
+	// this is the worst thing I've ever done.
+	function positionChat() {
+		chatBox.style.top = scoreboardBox.getBoundingClientRect().height + "px";
+		chatBox.style.bottom = chatInputBox.getBoundingClientRect().height + "px";
 	}
 
 	var hand = document.getElementById("d_hand");
@@ -583,10 +594,12 @@ window.addEventListener("DOMContentLoaded", function() {
 		var pointBox = document.getElementById("d_point");
 		pointBox.removeChild(pointBox.querySelector(".card"));
 
-		if (isCzar || data.isYou) {
-			winRoundNoise.play();
-		} else {
-			loseRoundNoise.play();
+		if (winRoundNoise && loseRoundNoise) {
+			if (isCzar || data.isYou) {
+				winRoundNoise.play();
+			} else {
+				loseRoundNoise.play();
+			}
 		}
 
 		pointBox.querySelector("h2").textContent = data.player + " wins the round";

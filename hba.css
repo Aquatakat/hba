@@ -479,10 +479,6 @@ input[type="submit"] {
 #d_playerthings {
 	background: rgba(0,0,0,.1);
 	width: 20rem;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: stretch;
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -490,9 +486,14 @@ input[type="submit"] {
 }
 
 #d_chat {
-	flex: 1 1;
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
 	overflow: auto;
 }
+
 #d_chat p > time, .game_message {
 	font-size: smaller;
 	opacity: .5;
@@ -502,6 +503,11 @@ input[type="submit"] {
 }
 #f_chat {
 	height: 1.5rem;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	width: 19rem;
+	background: rgba(0,0,0,.1);
 }
 #i_chat { width: 99% }
 
